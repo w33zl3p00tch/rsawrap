@@ -2,7 +2,7 @@
 Package rsawrap provides handy wrappers for creating RSA keys and encrypting or decrypting messages with RSA-OAEP.
 
 ## Example
-```
+```go
 package main
 
 import (
