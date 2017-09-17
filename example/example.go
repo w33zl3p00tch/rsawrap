@@ -1,8 +1,3 @@
-# rsawrap
-Package rsawrap provides handy wrappers for creating RSA keys and encrypting or decrypting messages with RSA-OAEP.
-
-## Example
-'''
 package main
 
 import (
@@ -38,7 +33,3 @@ func main() {
 
 	fmt.Printf("\nPlaintext:\n%s\n", string(plaintext))
 }
-'''
-
-## License
-This package is licensed under a BSD-style license as stated in the LICENSE file.
