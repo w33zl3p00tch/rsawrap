@@ -7,7 +7,7 @@ package main
 
 import (
 	"fmt"
-	"rsawrap"
+	"github.com/w33zl3p00tch/rsawrap"
 )
 
 func main() {
