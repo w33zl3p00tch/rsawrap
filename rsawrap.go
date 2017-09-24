@@ -34,15 +34,15 @@ func EncryptOAEP(msg []byte, pubKey []byte) ([]byte, error) {
 // not an empty string, it will try to decrypt a PEM-armored private key.
 // Although there are no known attacks against SHA1 in this context, SHA256
 // is used as hash algorithm.
-func DecryptOAEP(msg []byte, key []byte, passwd string) ([]byte, error) {
+func DecryptOAEP(msg []byte, key []byte, passwd []byte) ([]byte, error) {
 	var err error
 	hash := sha256.New()
 	privateKeyBlock, _ := pem.Decode(key)
 	var privKey *rsa.PrivateKey
 	var prk []byte
 
-	if passwd != "" {
-		pw := []byte(passwd)
+	if string(passwd) != "" {
+		pw := passwd
 		dec := x509.DecryptPEMBlock
 		if prk, err = dec(privateKeyBlock, pw); err != nil {
 			return nil, err
@@ -66,7 +66,7 @@ func DecryptOAEP(msg []byte, key []byte, passwd string) ([]byte, error) {
 // CreateKey takes the key length in bits and a password as arguments and
 // returns an RSA key pair in PEM format. If the password is an empty string, the
 // private key PEM will not be encrypted.
-func CreateKey(bits int, passwd string) ([]byte, []byte, error) {
+func CreateKey(bits int, passwd []byte) ([]byte, []byte, error) {
 	var err error
 	rd := rand.Reader
 	var key *rsa.PrivateKey
@@ -80,8 +80,8 @@ func CreateKey(bits int, passwd string) ([]byte, []byte, error) {
 		Bytes: x509.MarshalPKCS1PrivateKey(key),
 	}
 	// Encrypt the PEM when passwd is not empty.
-	if passwd != "" {
-		pw := []byte(passwd)
+	if string(passwd) != "" {
+		pw := passwd
 		enc := x509.EncryptPEMBlock
 		cipher := x509.PEMCipherAES256
 		if prk, err = enc(rd, prk.Type, prk.Bytes, pw, cipher); err != nil {
