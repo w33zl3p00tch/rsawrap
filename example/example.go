@@ -10,7 +10,10 @@ func main() {
 	keyLength := 2048 // Key length in bits
 
 	// Create a key pair.
-	privKey, pubKey, _ := rsawrap.CreateKey(keyLength, passwd)
+	privKey, pubKey, err := rsawrap.CreateKey(keyLength, passwd)
+	if err != nil {
+		panic(err)
+	}
 
 	fmt.Println(string(privKey))
 	fmt.Println(string(pubKey))
