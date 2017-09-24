@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	passwd := "SuperSecretPassword"
+	passwd := []byte("SuperSecretPassword")
 	keyLength := 2048 // Key length in bits
 
 	// Create a key pair.
