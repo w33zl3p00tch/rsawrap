@@ -26,7 +26,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Ciphertext:", ciphertext)
+	fmt.Println("Ciphertext:\n", ciphertext)
 
 	// Decrypt the ciphertext.
 	plaintext, err := rsawrap.DecryptOAEP(ciphertext, privKey, passwd)
