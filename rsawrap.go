@@ -1,5 +1,7 @@
 // Package rsawrap provides handy wrappers for creating RSA keys and encrypting
 // or decrypting messages with RSA-OAEP.
+//
+// Armored keys are encrypted using AES-256-CBC.
 package rsawrap
 
 import (
@@ -27,6 +29,7 @@ func EncryptOAEP(msg []byte, pubKey []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return ciphertext, nil
 }
 
@@ -56,10 +59,12 @@ func DecryptOAEP(msg []byte, key []byte, passwd []byte) ([]byte, error) {
 		return nil, errors.New("private key error. " +
 			"Corrupt key or invalid armor password.")
 	}
+
 	plaintext, err := rsa.DecryptOAEP(hash, rand.Reader, privKey, msg, nil)
 	if err != nil {
 		return nil, err
 	}
+
 	return plaintext, nil
 }
 
@@ -79,6 +84,7 @@ func CreateKey(bits int, passwd []byte) ([]byte, []byte, error) {
 		Type:  "RSA PRIVATE KEY",
 		Bytes: x509.MarshalPKCS1PrivateKey(key),
 	}
+
 	// Encrypt the PEM when passwd is not empty.
 	if string(passwd) != "" {
 		pw := passwd
